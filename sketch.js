@@ -1,7 +1,7 @@
 let scaleSlider, heightSlider, detailSlider;
 
-let cols = 120;
-let rows = 120;
+let cols = 100;
+let rows = 100;
 
 let terrain = [];
 
@@ -11,8 +11,7 @@ let detail = 3;
 
 function setup() {
 
-  let canvas = createCanvas(700, 600, WEBGL);
-  canvas.parent(document.body);
+  createCanvas(700, 600, WEBGL);
 
   scaleSlider = document.getElementById("scaleSlider");
   heightSlider = document.getElementById("heightSlider");
@@ -21,7 +20,6 @@ function setup() {
   document.getElementById("generateBtn").onclick = generateTerrain;
 
   generateTerrain();
-
 }
 
 function generateTerrain() {
@@ -68,27 +66,26 @@ function layeredNoise(x, y) {
   }
 
   return total / maxValue;
-
 }
 
 function draw() {
 
-  background(20);
+  background(0);
 
   rotateX(PI / 3);
-
-  translate(-cols * 2, -rows * 2);
+  translate(-cols * 3, -rows * 3);
 
   stroke(255);
   noFill();
 
   for (let y = 0; y < rows - 1; y++) {
 
-    beginShape();
+    beginShape(TRIANGLE_STRIP);
 
     for (let x = 0; x < cols; x++) {
 
-      vertex(x * 4, y * 4, terrain[x][y]);
+      vertex(x * 6, y * 6, terrain[x][y]);
+      vertex(x * 6, (y + 1) * 6, terrain[x][y + 1]);
 
     }
 
