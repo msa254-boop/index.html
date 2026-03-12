@@ -9,15 +9,13 @@ let scale = 0.02;
 let heightMultiplier = 150;
 let detail = 3;
 
+let camX = 0;
+let camY = -200;
+let camZ = 400;
+
 function setup() {
 
-  let canvas = createCanvas(700, 600, WEBGL);
-
-  // attach canvas to page
-  canvas.parent(document.body);
-
-  // disable right-click menu so orbitControl works
-  canvas.elt.oncontextmenu = () => false;
+  createCanvas(700,600,WEBGL);
 
   scaleSlider = document.getElementById("scaleSlider");
   heightSlider = document.getElementById("heightSlider");
@@ -28,7 +26,7 @@ function setup() {
   generateTerrain();
 }
 
-function generateTerrain() {
+function generateTerrain(){
 
   scale = parseFloat(scaleSlider.value);
   heightMultiplier = parseFloat(heightSlider.value);
@@ -38,32 +36,31 @@ function generateTerrain() {
 
   terrain = [];
 
-  for (let x = 0; x < cols; x++) {
+  for(let x=0;x<cols;x++){
 
     terrain[x] = [];
 
-    for (let y = 0; y < rows; y++) {
+    for(let y=0;y<rows;y++){
 
       let nx = x * scale;
       let ny = y * scale;
 
-      terrain[x][y] = layeredNoise(nx, ny) * heightMultiplier;
+      terrain[x][y] = layeredNoise(nx,ny) * heightMultiplier;
 
     }
   }
-
 }
 
-function layeredNoise(x, y) {
+function layeredNoise(x,y){
 
   let total = 0;
   let frequency = 1;
   let amplitude = 1;
   let maxValue = 0;
 
-  for (let i = 0; i < detail; i++) {
+  for(let i=0;i<detail;i++){
 
-    total += noise(x * frequency, y * frequency) * amplitude;
+    total += noise(x*frequency,y*frequency) * amplitude;
     maxValue += amplitude;
 
     amplitude *= 0.5;
@@ -71,16 +68,14 @@ function layeredNoise(x, y) {
 
   }
 
-  return total / maxValue;
-
+  return total/maxValue;
 }
 
-function draw() {
+function draw(){
 
   background(20);
 
-  // CAMERA CONTROL
-  orbitControl(1,1,0.1);
+  camera(camX,camY,camZ,0,0,0,0,1,0);
 
   rotateX(PI/3);
   translate(-cols*3,-rows*3);
@@ -88,19 +83,29 @@ function draw() {
   stroke(255);
   noFill();
 
-  for (let y = 0; y < rows - 1; y++) {
+  for(let y=0;y<rows-1;y++){
 
     beginShape(TRIANGLE_STRIP);
 
-    for (let x = 0; x < cols; x++) {
+    for(let x=0;x<cols;x++){
 
-      vertex(x*6, y*6, terrain[x][y]);
-      vertex(x*6, (y+1)*6, terrain[x][y+1]);
+      vertex(x*6,y*6,terrain[x][y]);
+      vertex(x*6,(y+1)*6,terrain[x][y+1]);
 
     }
 
     endShape();
 
   }
+
+}
+
+function keyPressed(){
+
+  if(key === 'w' || key === 'W') camZ -= 20;
+  if(key === 's' || key === 'S') camZ += 20;
+
+  if(key === 'a' || key === 'A') camX -= 20;
+  if(key === 'd' || key === 'D') camX += 20;
 
 }
