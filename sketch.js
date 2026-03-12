@@ -11,7 +11,13 @@ let detail = 3;
 
 function setup() {
 
-  createCanvas(700, 600, WEBGL);
+  let canvas = createCanvas(700, 600, WEBGL);
+
+  // attach canvas to page
+  canvas.parent(document.body);
+
+  // disable right-click menu so orbitControl works
+  canvas.elt.oncontextmenu = () => false;
 
   scaleSlider = document.getElementById("scaleSlider");
   heightSlider = document.getElementById("heightSlider");
@@ -66,16 +72,18 @@ function layeredNoise(x, y) {
   }
 
   return total / maxValue;
+
 }
 
 function draw() {
 
   background(20);
 
-  orbitControl(); // allows mouse movement
+  // CAMERA CONTROL
+  orbitControl(1,1,0.1);
 
-  rotateX(PI / 3);
-  translate(-cols * 3, -rows * 3);
+  rotateX(PI/3);
+  translate(-cols*3,-rows*3);
 
   stroke(255);
   noFill();
@@ -86,8 +94,8 @@ function draw() {
 
     for (let x = 0; x < cols; x++) {
 
-      vertex(x * 6, y * 6, terrain[x][y]);
-      vertex(x * 6, (y + 1) * 6, terrain[x][y + 1]);
+      vertex(x*6, y*6, terrain[x][y]);
+      vertex(x*6, (y+1)*6, terrain[x][y+1]);
 
     }
 
