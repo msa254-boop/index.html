@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive 3D Terrain Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+</head>
+<body>
+
+<h1>Interactive 3D Terrain Generator</h1>
+
+<div id="controls">
+  <label>Scale</label>
+  <input type="range" id="scaleSlider" min="0.005" max="0.05" step="0.001" value="0.02">
+
+  <label>Height</label>
+  <input type="range" id="heightSlider" min="50" max="300" value="150">
+
+  <label>Detail</label>
+  <input type="range" id="detailSlider" min="1" max="6" value="3">
+
+  <button id="generateBtn">Generate New Terrain</button>
+</div>
+
+<script src="sketch.js"></script>
+</body>
+</html>
